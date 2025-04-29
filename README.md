@@ -1,6 +1,6 @@
 # Official Intelligence — Automated Cybersecurity Blog System
 
-**Official Intelligence** is a fully automated content publishing system that generates cybersecurity-focused blog articles using OpenAI, formats them appropriately, and posts them directly to Hashnode.
+**Official Intelligence** is a fully automated content publishing system that generates cybersecurity-focused blog articles using OpenAI, formats them appropriately, and posts them directly to [Hashnode](https://officialintelligence.hashnode.dev).
 
 This project demonstrates:
 - Automation of cybersecurity content workflows
