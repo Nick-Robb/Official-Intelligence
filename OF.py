@@ -82,7 +82,12 @@ def publish_to_hashnode(title, content):
         }
     }
     try:
-        response = requests.post(HASHNODE_API_URL, headers=headers, json=payload)
+        response = requests.post(
+            HASHNODE_API_URL,
+            headers=headers,
+            json=payload,
+            timeout=10,
+        )
         if response.status_code != 200:
             print("Hashnode response error:", response.text)
         response.raise_for_status()
@@ -113,6 +118,6 @@ schedule.every(30).seconds.do(run_automation)
 print("Automation script is running...")
 while True:
     schedule.run_pending()
-    time.sleep(60)
+    time.sleep(30)
 
 # --- End Revised Code ---
