@@ -3,7 +3,10 @@
 # 1. Import and load environment variables
 import os
 from dotenv import load_dotenv  # Import python-dotenv to load .env file
+import logging
 load_dotenv()  # Load variables from .env file (ensure .env is in the same directory)
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # 2. Import other required libraries, including sys for exiting the script
 import sys
@@ -51,7 +54,7 @@ Adopt an authoritative, current, and innovative tone, engaging cybersecurity pro
         )
         return response.choices[0].message.content
     except Exception as e:
-        print("Error generating blog post:", e)
+        logging.error("Error generating blog post: %s", e)
         return None
 
 def publish_to_hashnode(title, content):
@@ -89,35 +92,36 @@ def publish_to_hashnode(title, content):
             timeout=10,
         )
         if response.status_code != 200:
-            print("Hashnode response error:", response.text)
+            logging.error("Hashnode response error: %s", response.text)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
-        print("Error publishing to Hashnode:", e)
+        logging.error("Error publishing to Hashnode: %s", e)
         return None
 
 def run_automation():
-    print("Generating blog post...")
+    logging.info("Generating blog post...")
     blog_content = generate_blog_post()
     if blog_content:
         title = blog_content.split("\n")[0]  # Use the first line as the title
-        print("Publishing to Hashnode...")
+        logging.info("Publishing to Hashnode...")
         result = publish_to_hashnode(title, blog_content)
         if result:
-            print("Published Successfully:", result)
+            logging.info("Published Successfully: %s", result)
             # Stop the script after a successful post:
             sys.exit(0)  # Exiting the script on success
         else:
-            print("Failed to publish to Hashnode.")
+            logging.error("Failed to publish to Hashnode.")
     else:
-        print("Failed to generate blog content.")
+        logging.error("Failed to generate blog content.")
 
 # Schedule execution every 30 seconds for testing purposes
-schedule.every(30).seconds.do(run_automation)
 
-print("Automation script is running...")
-while True:
-    schedule.run_pending()
-    time.sleep(30)
+if __name__ == "__main__":
+    schedule.every(30).seconds.do(run_automation)
+    logging.info("Automation script is running...")
+    while True:
+        schedule.run_pending()
+        time.sleep(30)
 
 # --- End Revised Code ---

@@ -42,3 +42,23 @@ Install Python dependencies:
 
 ```bash
 pip install openai python-dotenv requests
+```
+
+Create a `.env` file in the project root with your API keys:
+
+```bash
+OPENAI_API_KEY=your-openai-key
+HASHNODE_API_KEY=your-hashnode-key
+# Optional: customize the Hashnode API URL or publication ID
+# HASHNODE_API_URL=https://gql.hashnode.com/
+# PUBLICATION_ID=your-publication-id
+```
+
+Run the automation script:
+
+```bash
+python OF.py
+```
+
+The script loads your `.env` file, generates a blog post with OpenAI, and
+publishes it to Hashnode automatically.
